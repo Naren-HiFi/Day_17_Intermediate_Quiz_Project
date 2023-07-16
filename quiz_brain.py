@@ -1,15 +1,28 @@
-# TODO 1: Create a class called QuizBrain
-# TODO 2: Write an __init__() method
-# TODO 3: Initialise the question_number = 0
-# TODO 4: Initialise the question_list to an input
-
 class QuizBrain:
     def __init__(self, q_list):
         self.question_number = 0
         self.question_list = q_list
+        self.score = 0
 
     def next_question(self):
-        pass
+        current_question = self.question_list[self.question_number]
+        self.question_number += 1
+        user_answer = input(f'Q.{self.question_number}: {current_question.text}: (True/False): ')
+        self.check_answer(user_answer, current_question.answer)
 
+    def still_has_questions(self):
+        return self.question_number < len(self.question_list)
 
-
+    def check_answer(self, u_answer, correct_answer):
+        if (u_answer.lower() == correct_answer.lower()):
+            print("You got it right!")
+            self.score += 1
+        else:
+            print("That's wrong.")
+            if self.question_number == 1 and (u_answer.lower() != correct_answer.lower()):
+                self.score = 0
+            else:
+                self.score -= 1
+        print(f'The correct answer was: {correct_answer}.')
+        print(f'Your current score is: {self.score}/{self.question_number}')
+        print("\n")
